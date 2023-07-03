@@ -33,40 +33,37 @@ namespace WpfApp1
             Req = new HttpClient();
             InitializeComponent();
             HideAll();
-            PropertyInfo[] httpMethods = typeof(HttpMethod).GetProperties(BindingFlags.Public | BindingFlags.Static);
-
-            foreach (PropertyInfo property in httpMethods)
-            {
-                var httpMethod = (HttpMethod?)property.GetValue(null);
-                if (httpMethod is not null) {  TheComboBox.Items.Add(httpMethod);  }
-                TheComboBox.SelectedIndex = 0;
-            }
+            FillingHttpMethods();
+            FillingEncoders();        
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             HttpRequestMessage HRM = new HttpRequestMessage();
             // If with body text request
             if (RequestWithBody)
             {
                 HRM.Content = new StringContent(TheRequestBodyTextBox.Text, (Encoding)TheComboEncodingBox.SelectedValue, TheTextBoxContentType.Text);
             }
-
-            TheSubmit.IsEnabled = false;
-            TheSubmit.Content = "Loading";
+            try
+            {
+                TheSubmit.IsEnabled = false; TheSubmit.Background = new SolidColorBrush(Colors.Black);
+                TheSubmit.Content = "Loading";
                 HRM.RequestUri = new UriBuilder(TheTextBox.Text).Uri;
                 int i = TheComboBox.SelectedIndex;
                 HRM.Method = (HttpMethod)TheComboBox.SelectedItem;
                 HttpResponseMessage Hresponse = await Req.SendAsync(HRM);
                 if (Hresponse.IsSuccessStatusCode)
                 {
-                string x = await Hresponse.Content.ReadAsStringAsync();
-                TheTextBlock.Text = x;
-            }   
+                    string x = await Hresponse.Content.ReadAsStringAsync();
+                    TheTextBlock.Text = x;
+                }
                 else { TheComboBox.Text = $"Request failed with: {Hresponse.StatusCode}. \nReason Phrase: {Hresponse.ReasonPhrase}"; }
-            TheComboBox.SelectedIndex = i;
+                TheComboBox.SelectedIndex = i;
+            } catch (Exception ex) { TheTextBlock.Text = ex.Message; Debug.WriteLine(ex.Message); }
             TheSubmit.Content = "Submitted";
-            TheSubmit.IsEnabled = true;
+            TheSubmit.IsEnabled = true; TheSubmit.Background = new SolidColorBrush(Colors.DarkGreen);
         }
 
 
@@ -89,20 +86,41 @@ namespace WpfApp1
 
         private void TheButtonAddBody_Click(object sender, RoutedEventArgs e)
         {
-
+            
             if (RequestWithBody is false)
             {
-                int c = 0;
-                foreach (var Enc in Encoding.GetEncodings())
-                {
-                    TheComboEncodingBox.Items.Add(Enc);
-                    if (Enc.Equals(Encoding.UTF8)) { TheComboEncodingBox.SelectedIndex = c; }
-                    c++;
-                }
+               
                 ShowAll();
                 RequestWithBody = true;
+                TheButtonAddBody.Content = "Clear Body";
+                TheButtonAddBody.Background = new SolidColorBrush(Colors.DarkRed);
             }
-            else { RequestWithBody = false; HideAll(); }
+            else { RequestWithBody = false; HideAll(); TheButtonAddBody.Content = "Request Body"; TheButtonAddBody.Background = new SolidColorBrush(Colors.RoyalBlue); }
+        }
+
+
+
+        private void FillingHttpMethods()
+        {
+            PropertyInfo[] httpMethods = typeof(HttpMethod).GetProperties(BindingFlags.Public | BindingFlags.Static);
+            foreach (PropertyInfo property in httpMethods)
+            {
+                var httpMethod = (HttpMethod?)property.GetValue(null);
+                if (httpMethod is not null) { TheComboBox.Items.Add(httpMethod); }
+                TheComboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void FillingEncoders()
+        {
+            int c = 0;
+            PropertyInfo[] EncodingTypes = typeof(Encoding).GetProperties(BindingFlags.Public | BindingFlags.Static);
+            foreach (PropertyInfo Enc in EncodingTypes)
+            {
+                TheComboEncodingBox.Items.Add(Enc);
+                    if (Enc.Name.Contains("UTF8")) { TheComboEncodingBox.SelectedIndex = c; }
+                c++;
+            }
         }
     }
 }
