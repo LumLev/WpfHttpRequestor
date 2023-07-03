@@ -60,10 +60,7 @@ namespace WpfApp1
                 HttpResponseMessage Hresponse = await Req.SendAsync(HRM);
                 if (Hresponse.IsSuccessStatusCode)
                 {
-                Debug.Print($"{Hresponse.StatusCode}");
                 string x = await Hresponse.Content.ReadAsStringAsync();
-                Debug.Print($"\n x is {x}");
-                Debug.WriteLine(x);
                 TheTextBlock.Text = x;
             }   
                 else { TheComboBox.Text = $"Request failed with: {Hresponse.StatusCode}. \nReason Phrase: {Hresponse.ReasonPhrase}"; }
