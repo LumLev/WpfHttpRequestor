@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace WpfApp1
+using System.Windows.Media;
+
+
+namespace HttpReq
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -68,21 +58,7 @@ namespace WpfApp1
 
 
 
-        private void ShowAll()
-        {
-            TheComboEncodingBox.Visibility = Visibility.Visible;
-            TheLabelContent.Visibility = Visibility.Visible;
-            TheTextBoxContentType.Visibility = Visibility.Visible;
-            TheRequestBodyTextBox.Visibility = Visibility.Visible;
-        }
-
-        private void HideAll()
-        {
-            TheComboEncodingBox.Visibility = Visibility.Hidden;
-            TheLabelContent.Visibility = Visibility.Hidden;
-            TheTextBoxContentType.Visibility = Visibility.Hidden;
-            TheRequestBodyTextBox.Visibility = Visibility.Collapsed;
-        }
+  
 
         private void TheButtonAddBody_Click(object sender, RoutedEventArgs e)
         {
@@ -90,12 +66,9 @@ namespace WpfApp1
             if (RequestWithBody is false)
             {
                
-                ShowAll();
-                RequestWithBody = true;
-                TheButtonAddBody.Content = "Clear Body";
-                TheButtonAddBody.Background = new SolidColorBrush(Colors.DarkRed);
+                ShowAll(); RequestWithBody = true;
             }
-            else { RequestWithBody = false; HideAll(); TheButtonAddBody.Content = "Request Body"; TheButtonAddBody.Background = new SolidColorBrush(Colors.RoyalBlue); }
+            else { RequestWithBody = false; HideAll(); }
         }
 
 
@@ -121,6 +94,37 @@ namespace WpfApp1
                     if (Enc.Name.Contains("UTF8")) { TheComboEncodingBox.SelectedIndex = c; }
                 c++;
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            TheTextBlock.Text = "Response body";
+            TheRequestBodyTextBox.Text = "Insert Request body here";
+            Req = new HttpClient();
+            HideAll();
+            FillingHttpMethods();
+            FillingEncoders();
+        }
+        private void ShowAll()
+        {
+            TheComboEncodingBox.Visibility = Visibility.Visible;
+            TheLabelContent.Visibility = Visibility.Visible;
+            TheTextBoxContentType.Visibility = Visibility.Visible;
+            TheRequestBodyTextBox.Visibility = Visibility.Visible;
+            TheButtonAddBody.Content = "Clear Request Body";
+            TheButtonAddBody.Background = new SolidColorBrush(Colors.DarkRed);
+        }
+
+        private void HideAll()
+        {
+            TheTextBlock.Text = string.Empty;
+            TheTextBoxContentType.Text = "text/json";
+            TheComboEncodingBox.Visibility = Visibility.Hidden;
+            TheLabelContent.Visibility = Visibility.Hidden;
+            TheTextBoxContentType.Visibility = Visibility.Hidden;
+            TheRequestBodyTextBox.Visibility = Visibility.Collapsed;
+            TheButtonAddBody.Content = "Add Request Body";
+            TheButtonAddBody.Background = new SolidColorBrush(Colors.RoyalBlue);
         }
     }
 }

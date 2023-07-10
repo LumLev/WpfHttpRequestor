@@ -1,9 +1,9 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="HttpReq.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:HttpReq"
         mc:Ignorable="d"
         Title="MainWindow" ResizeMode="NoResize" Height="400" Width="800">
     <Grid Margin="0,0,0,-6">
@@ -18,8 +18,8 @@
             <ColumnDefinition Width="233*"/>
             <ColumnDefinition Width="567*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="TheTextBox" HorizontalAlignment="Left" Height="37" Margin="112,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="267" FontSize="22" FontFamily="Bahnschrift" Grid.ColumnSpan="2" Background="#B2FFFFFF" TextAlignment="Justify" UndoLimit="30"/>
-        <Button x:Name="TheSubmit" Content="Submit" HorizontalAlignment="Left" Height="37" Margin="151,10,0,0" VerticalAlignment="Top" Width="72" Background="DarkGreen" Foreground="White" Click="Button_Click" Grid.Column="1"/>
+        <TextBox x:Name="TheTextBox" HorizontalAlignment="Left" Height="37" Margin="112,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="242" FontSize="22" FontFamily="Bahnschrift" Grid.ColumnSpan="2" Background="#B2FFFFFF" TextAlignment="Justify" UndoLimit="30"/>
+        <Button x:Name="TheSubmit" Content="Submit" HorizontalAlignment="Left" Height="37" Margin="131,10,0,0" VerticalAlignment="Top" Width="72" Background="DarkGreen" Foreground="White" Click="Button_Click" Grid.Column="1"/>
         <ComboBox x:Name="TheComboBox" FontFamily="Bahnschrift SemiBold" FontSize="30" HorizontalAlignment="Left" Height="37" Margin="10,10,0,0" VerticalAlignment="Top" Width="97">
             <ComboBox.Background>
                 <LinearGradientBrush EndPoint="0,1">
@@ -28,8 +28,7 @@
                 </LinearGradientBrush>
             </ComboBox.Background>
         </ComboBox>
-        <TextBlock x:Name="TheTextBlock" HorizontalAlignment="Left" Height="370" Margin="237,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="320" Text="Response body" FontSize="16" Background="#B2000000" Foreground="White" FontFamily="Bahnschrift SemiBold" Grid.Column="1"/>
-        <TextBox x:Name="TheRequestBodyTextBox" HorizontalAlignment="Left" Margin="139,65,0,0" TextWrapping="Wrap" Text="Insert Body Request Here" VerticalAlignment="Top" Width="317" Height="315" FontFamily="Bahnschrift SemiBold" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2" Background="#7FF9F9F9"/>
+        <TextBox x:Name="TheRequestBodyTextBox" HorizontalAlignment="Left" Margin="139,62,0,0" TextWrapping="Wrap" Text="Insert Body Request Here" VerticalAlignment="Top" Width="297" Height="318" FontFamily="Bahnschrift SemiBold" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2" Background="#7FF9F9F9"/>
         <TextBox x:Name="TheTextBoxContentType" Padding="0,5,0,0" HorizontalAlignment="Left" Margin="10,155,0,0" TextWrapping="Wrap" Text="text/xml" VerticalAlignment="Top" Width="120" Height="25" TextAlignment="Center" FontFamily="Bahnschrift SemiBold" Background="#B2FFFFFF" />
         <Label x:Name="TheLabelContent" Content="Content Type:" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" Width="83" FontFamily="Bahnschrift SemiBold" />
         <ComboBox x:Name="TheComboEncodingBox" ItemStringFormat="" HorizontalAlignment="Left" Height="33" Margin="10,195,0,0" VerticalAlignment="Top" Width="120" BorderBrush="#FFA93737" >
@@ -40,7 +39,16 @@
                 </LinearGradientBrush>
             </ComboBox.Background>
         </ComboBox>
-        <Button x:Name="TheButtonAddBody" Content="Request Body" HorizontalAlignment="Left" Height="33" Margin="10,62,0,0" VerticalAlignment="Top" Width="97" Background="RoyalBlue" Foreground="White" Click="TheButtonAddBody_Click"/>
+        <Button x:Name="TheButtonAddBody" Content="Add Request Body" HorizontalAlignment="Left" Height="33" Margin="10,62,0,0" VerticalAlignment="Top" Width="120" Background="RoyalBlue" Foreground="White" Click="TheButtonAddBody_Click"/>
+        <Button Content="Reset &#x2672;" HorizontalAlignment="Left" Height="58" Margin="17,300,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.228,0.222" FontFamily="Bahnschrift SemiBold" FontSize="22" Background="#33DDDDDD" Click="Button_Click_1">
+            <Button.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF2221AB" Offset="1"/>
+                    <GradientStop Color="#FF3F974E" Offset="0"/>
+                </LinearGradientBrush>
+            </Button.Foreground>
+        </Button>
+        <TextBox x:Name="TheTextBlock" TextAlignment="Center" ScrollViewer.CanContentScroll="True" ScrollViewer.PanningMode="VerticalOnly" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" HorizontalAlignment="Left" Height="370" Margin="208,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="359" Background="#B2000000" Foreground="White" FontSize="14" FontFamily="Bahnschrift SemiBold" FontWeight="Bold" SelectionBrush="#FFE0FFE6" SelectionTextBrush="#FF409D99"/>
 
     </Grid>
 </Window>
